@@ -7,6 +7,7 @@ export function fetchAllProducts() {
   });
 }
 export function fetchAllProductsByFilters(filter) {
+  console.log("filter from api", filter);
   let queryString = "";
 
   for (let key in filter) {
@@ -15,7 +16,9 @@ export function fetchAllProductsByFilters(filter) {
   console.log(queryString);
 
   return new Promise(async (resolve) => {
-    const response = await fetch("http://localhost:8080/products?"+queryString);
+    const response = await fetch(
+      "http://localhost:8080/products?" + queryString
+    );
     const data = await response.json();
     resolve({ data });
   });

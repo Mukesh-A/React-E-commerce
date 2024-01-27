@@ -1,6 +1,10 @@
 import React, { useState, Fragment, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { selectAllProducts, fetchAllProductsAsync, fetchAllProductsByFiltersAsync } from "../ProductSlice";
+import {
+  selectAllProducts,
+  fetchAllProductsAsync,
+  fetchAllProductsByFiltersAsync,
+} from "../ProductSlice";
 import {
   ChevronLeftIcon,
   ChevronRightIcon,
@@ -19,11 +23,9 @@ import {
 import { Link } from "react-router-dom";
 
 const sortOptions = [
-  { name: "Most Popular", href: "#", current: true },
-  { name: "Best Rating", href: "#", current: false },
-  { name: "Newest", href: "#", current: false },
-  { name: "Price: Low to High", href: "#", current: false },
-  { name: "Price: High to Low", href: "#", current: false },
+  { name: "Best Rating", sort: "rating", order: "desc", current: false },
+  { name: "Price: Low to High", sort: "price", order: "asc", current: false },
+  { name: "Price: High to Low", sort: "price", order: "desc", current: false },
 ];
 
 const filters = [
@@ -55,7 +57,6 @@ const filters = [
       },
     ],
   },
-  
 ];
 
 function classNames(...classes) {
@@ -65,27 +66,29 @@ function classNames(...classes) {
 export default function ProductList() {
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
 
-  const dispatch = useDispatch();
   const products = useSelector(selectAllProducts);
-  const [filter,setFilter] = useState({});
-
+  const dispatch = useDispatch();
+  const [filter, setFilter] = useState({});
 
   //filer funtion
-  const handelFilter = (e,section,option)=>{
+  const handelFilter = (e, section, option) => {
+    const newFilter = { ...filter, [section.id]: option.value };
+    setFilter(newFilter);
+    dispatch(fetchAllProductsByFiltersAsync(newFilter));
+    console.log("filter=>", { ...filter }, section.id, option.value, newFilter);
+  };
 
-    const newFilter = {...filter,[section.id]:option.value}
-    setFilter(newFilter)
-    dispatch(fetchAllProductsByFiltersAsync(newFilter))
-    console.log(section.id, option.value, newFilter);
-  }
-
+  //sorting products
+  const handelSort = (e, option) => {
+    const newFilter = { ...filter, _sort: option.sort, _order: option.order };
+    setFilter(newFilter);
+    dispatch(fetchAllProductsByFiltersAsync(newFilter));
+  };
+  // console.log(filter);
 
   useEffect(() => {
     dispatch(fetchAllProductsAsync());
   }, [dispatch]);
-
-
-  
 
   // const products = [
   //   {
@@ -767,7 +770,9 @@ export default function ProductList() {
                                         id={`filter-mobile-${section.id}-${optionIdx}`}
                                         name={`${section.id}[]`}
                                         defaultValue={option.value}
-                                        onChange={e=>handelFilter(e,section,option)}
+                                        onChange={(e) =>
+                                          handelFilter(e, section, option)
+                                        }
                                         type="checkbox"
                                         defaultChecked={option.checked}
                                         className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
@@ -825,8 +830,8 @@ export default function ProductList() {
                         {sortOptions.map((option) => (
                           <Menu.Item key={option.name}>
                             {({ active }) => (
-                              <a
-                                href={option.href}
+                              <p
+                                onClick={(e) => handelSort(e, option)}
                                 className={classNames(
                                   option.current
                                     ? "font-medium text-gray-900"
@@ -836,7 +841,7 @@ export default function ProductList() {
                                 )}
                               >
                                 {option.name}
-                              </a>
+                              </p>
                             )}
                           </Menu.Item>
                         ))}
@@ -922,7 +927,9 @@ export default function ProductList() {
                                     id={`filter-${section.id}-${optionIdx}`}
                                     name={`${section.id}[]`}
                                     defaultValue={option.value}
-                                    onChange={e=>handelFilter(e,section,option)}
+                                    onChange={(e) =>
+                                      handelFilter(e, section, option)
+                                    }
                                     type="checkbox"
                                     defaultChecked={option.checked}
                                     className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
