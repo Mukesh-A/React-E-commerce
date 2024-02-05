@@ -6,14 +6,28 @@ export function fetchAllProducts() {
     resolve({ data });
   });
 }
-export function fetchAllProductsByFilters(filter) {
+export function fetchAllProductsByFilters(filter, sort, pagination) {
   console.log("filter from api", filter);
   let queryString = "";
 
   for (let key in filter) {
-    queryString += `${key}=${filter[key]}&`;
+    const categoryValues = filter[key];
+    console.log("categoryValues", categoryValues, key);
+
+    if (categoryValues.length > 0) {
+      const lastCategoryValue = categoryValues[categoryValues.length - 1];
+      queryString += `${key}=${lastCategoryValue}&`;
+    }
   }
-  console.log(queryString);
+
+  for (let key in sort) {
+    queryString += `${key}=${sort[key]}&`;
+  }
+
+  for (let key in pagination) {
+    console.log(pagination);
+    queryString += `${key}=${pagination[key]}&`;
+  }
 
   return new Promise(async (resolve) => {
     const response = await fetch(
