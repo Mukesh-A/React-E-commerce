@@ -1,4 +1,4 @@
-// A mock function to mimic making an async request for data
+// fetch all products
 export function fetchAllProducts() {
   return new Promise(async (resolve) => {
     const response = await fetch("http://localhost:8080/products");
@@ -6,6 +6,8 @@ export function fetchAllProducts() {
     resolve({ data });
   });
 }
+
+// fetch all products with filter
 export function fetchAllProductsByFilters(filter, sort, pagination) {
   console.log("filter from api", filter);
   let queryString = "";
@@ -33,6 +35,26 @@ export function fetchAllProductsByFilters(filter, sort, pagination) {
     const response = await fetch(
       "http://localhost:8080/products?" + queryString
     );
+    const data = await response.json();
+    const totalItems = await response.headers.get("X-Total-Count"); /// in http request we have a X-TOTAL-Count which will return total number of products ->> used for pagination
+    resolve({ data: { products: data, totalItems: +totalItems } });
+  });
+}
+
+// fetch Categories
+export function fetchCategories() {
+  return new Promise(async (resolve) => {
+    const response = await fetch("http://localhost:8080/categories");
+    const data = await response.json();
+    console.log(data);
+    resolve({ data });
+  });
+}
+
+// fetch Brands
+export function fetchBrands() {
+  return new Promise(async (resolve) => {
+    const response = await fetch("http://localhost:8080/brands");
     const data = await response.json();
     resolve({ data });
   });

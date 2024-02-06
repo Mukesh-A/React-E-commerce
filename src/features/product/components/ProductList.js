@@ -4,6 +4,11 @@ import {
   selectAllProducts,
   fetchAllProductsAsync,
   fetchAllProductsByFiltersAsync,
+  selectTotalItems,
+  selectCategories,
+  selectBrands,
+  fetchCategoriesAsync,
+  fetchBrandAsync,
 } from "../ProductSlice";
 import {
   ChevronLeftIcon,
@@ -29,37 +34,6 @@ const sortOptions = [
   { name: "Price: High to Low", sort: "price", order: "desc", current: false },
 ];
 
-const filters = [
-  {
-    id: "color",
-    name: "Color",
-    options: [
-      { value: "white", label: "White", checked: false },
-      { value: "beige", label: "Beige", checked: false },
-      { value: "blue", label: "Blue", checked: true },
-      { value: "brown", label: "Brown", checked: false },
-      { value: "green", label: "Green", checked: false },
-      { value: "purple", label: "Purple", checked: false },
-    ],
-  },
-  {
-    id: "category",
-    name: "Category",
-    options: [
-      { value: "smartphones", label: "smartphones", checked: false },
-      { value: "laptops", label: "laptops", checked: false },
-      { value: "fragrances", label: "fragrances", checked: false },
-      { value: "skincare", label: "skincare", checked: false },
-      { value: "groceries", label: "groceries", checked: false },
-      {
-        value: "home-decoration",
-        label: "home decoration",
-        checked: false,
-      },
-    ],
-  },
-];
-
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
@@ -67,13 +41,35 @@ function classNames(...classes) {
 export default function ProductList() {
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
 
+  // all products selector
   const products = useSelector(selectAllProducts);
+  // total items from http request selector
+  const totalItems = useSelector(selectTotalItems);
+  // categories selector
+  const categories = useSelector(selectCategories);
+  // Brand selector
+  const brands = useSelector(selectBrands);
+
   const dispatch = useDispatch();
+
+  const filters = [
+    {
+      id: "category",
+      name: "Category",
+      options: categories,
+    },
+    {
+      id: "brand",
+      name: "Brands",
+      options: brands,
+    },
+  ];
+
   const [filter, setFilter] = useState({});
   const [sort, setSort] = useState({});
   const [page, setPage] = useState(1);
 
-  //filer funtion
+  //filter function
   const handelFilter = (e, section, option) => {
     const newFilter = { ...filter };
     // console.log("old filter", filter);
@@ -113,7 +109,17 @@ export default function ProductList() {
   useEffect(() => {
     const pagination = { _page: page, _limit: ITEMS_PER_PAGE };
     dispatch(fetchAllProductsByFiltersAsync({ filter, sort, pagination }));
-  }, [dispatch, filter, sort,page]);
+  }, [dispatch, filter, sort, page]);
+
+  //to update pagination from page 1
+  useEffect(() => {
+    setPage(1);
+  }, [totalItems, sort]);
+
+  useEffect(() => {
+    dispatch(fetchCategoriesAsync());
+    dispatch(fetchBrandAsync());
+  }, []);
 
   return (
     <div>
@@ -124,6 +130,7 @@ export default function ProductList() {
             mobileFiltersOpen={mobileFiltersOpen}
             setMobileFiltersOpen={setMobileFiltersOpen}
             handelFilter={handelFilter}
+            filters={filters}
           />
           <main className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             <div className="flex items-baseline justify-between border-b border-gray-200 pb-6 pt-24">
@@ -202,7 +209,7 @@ export default function ProductList() {
 
               <div className="grid grid-cols-1 gap-x-8 gap-y-10 lg:grid-cols-4">
                 {/* Filters */}
-                <DesktopFilter handelFilter={handelFilter} />
+                <DesktopFilter handelFilter={handelFilter} filters={filters} />
 
                 {/* Product grid start*/}
                 <div className="lg:col-span-3">
@@ -216,7 +223,12 @@ export default function ProductList() {
 
             {/* pagination start */}
 
-            <Pagination page={page} setPage={setPage} handelPage={handelPage} />
+            <Pagination
+              page={page}
+              setPage={setPage}
+              handelPage={handelPage}
+              totalItems={totalItems}
+            />
             {/* pagination end */}
           </main>
         </div>
@@ -229,6 +241,7 @@ function MobileFilter({
   mobileFiltersOpen,
   setMobileFiltersOpen,
   handelFilter,
+  filters,
 }) {
   return (
     <Transition.Root show={mobileFiltersOpen} as={Fragment}>
@@ -356,7 +369,7 @@ function MobileFilter({
     </Transition.Root>
   );
 }
-function DesktopFilter({ handelFilter }) {
+function DesktopFilter({ handelFilter, filters }) {
   return (
     <form className="hidden lg:block">
       <h3 className="sr-only">Categories</h3>
@@ -423,7 +436,7 @@ function DesktopFilter({ handelFilter }) {
     </form>
   );
 }
-function Pagination({ page, setPage, handelPage, totalItems = 55 }) {
+function Pagination({ page, setPage, handelPage, totalItems }) {
   return (
     <div className="flex items-center justify-between border-t border-gray-200 bg-white px-4 py-3 sm:px-6">
       <div className="flex flex-1 justify-between sm:hidden">
@@ -441,8 +454,13 @@ function Pagination({ page, setPage, handelPage, totalItems = 55 }) {
             <span className="font-medium">
               {(page - 1) * ITEMS_PER_PAGE + 1}
             </span>{" "}
-            to <span className="font-medium">{page * ITEMS_PER_PAGE}</span> of{" "}
-            <span className="font-medium">{totalItems}</span> results
+            to{" "}
+            <span className="font-medium">
+              {page * ITEMS_PER_PAGE > totalItems
+                ? totalItems
+                : page * ITEMS_PER_PAGE}
+            </span>{" "}
+            of <span className="font-medium">{totalItems}</span> results
           </p>
         </div>
         <div>
@@ -462,6 +480,7 @@ function Pagination({ page, setPage, handelPage, totalItems = 55 }) {
             {Array.from({ length: Math.ceil(totalItems / ITEMS_PER_PAGE) }).map(
               (el, index) => (
                 <div
+                  key={index}
                   onClick={(e) => handelPage(index + 1)}
                   aria-current="page"
                   className={`relative z-10 cursor-pointer inline-flex items-center ${
