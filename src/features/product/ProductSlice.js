@@ -39,7 +39,7 @@ export const fetchAllProductsByFiltersAsync = createAsyncThunk(
   async ({ filter, sort, pagination }) => {
     const response = await fetchAllProductsByFilters(filter, sort, pagination);
     // The value we return becomes the `fulfilled` action payload
-    console.log(response.data);
+    // console.log(response.data);
     return response.data;
   }
 );
@@ -49,7 +49,7 @@ export const fetchBrandAsync = createAsyncThunk(
   async () => {
     const response = await fetchBrands();
     // The value we return becomes the `fulfilled` action payload
-    console.log(response.data);
+    // console.log(response.data);
     return response.data;
   }
 );
@@ -58,7 +58,7 @@ export const fetchCategoriesAsync = createAsyncThunk(
   async () => {
     const response = await fetchCategories();
     // The value we return becomes the `fulfilled` action payload
-    console.log(response.data);
+    // console.log(response.data);
     return response.data;
   }
 );

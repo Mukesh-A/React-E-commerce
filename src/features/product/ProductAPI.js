@@ -19,12 +19,12 @@ export function fetchProductById(id) {
 
 // fetch all products with filter
 export function fetchAllProductsByFilters(filter, sort, pagination) {
-  console.log("filter from api", filter);
+  // console.log("filter from api", filter);
   let queryString = "";
 
   for (let key in filter) {
     const categoryValues = filter[key];
-    console.log("categoryValues", categoryValues, key);
+    // console.log("categoryValues", categoryValues, key);
 
     if (categoryValues.length > 0) {
       const lastCategoryValue = categoryValues[categoryValues.length - 1];
@@ -37,7 +37,7 @@ export function fetchAllProductsByFilters(filter, sort, pagination) {
   }
 
   for (let key in pagination) {
-    console.log(pagination);
+    // console.log(pagination);
     queryString += `${key}=${pagination[key]}&`;
   }
 
@@ -56,7 +56,7 @@ export function fetchCategories() {
   return new Promise(async (resolve) => {
     const response = await fetch("http://localhost:8080/categories");
     const data = await response.json();
-    console.log(data);
+    // console.log(data);
     resolve({ data });
   });
 }
