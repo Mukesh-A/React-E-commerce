@@ -4,7 +4,7 @@ import { increment, incrementAsync, selectCount } from "../authSlice";
 import { Link } from "react-router-dom";
 
 export function Login() {
-  const count = useSelector(selectCount);
+  // const count = useSelector(selectCount);
   const dispatch = useDispatch();
 
   return (
