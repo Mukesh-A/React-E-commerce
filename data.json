@@ -1155,7 +1155,7 @@
       ],
       "totalAmount": 1448,
       "totalItems": 2,
-      "paymentMethod": "card",
+      "paymentMethod": "cash",
       "selectedAddress": {
         "name": "John",
         "email": "test@gmail.com",
@@ -1181,6 +1181,7 @@
         ],
         "id": 1
       },
+      "status": "pending",
       "id": 1
     }
   ]

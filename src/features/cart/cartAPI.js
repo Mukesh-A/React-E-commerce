@@ -44,7 +44,21 @@ export function deleteItemFromCart(itemId) {
       headers: { "content-type": "application/json" },
     });
     const data = await response.json();
-    console.log("cart details", data);
+    console.log("cart-DELETED details", data);
     resolve({ data: { id: itemId } });
+  });
+}
+
+export function resetCart(userId) {
+  //get all items of user's cart -  and then delete each items from cart so we can use above function codes
+  return new Promise(async (resolve) => {
+    const response = await fetchItemsByUserId(userId);
+    const items = response.data;
+    console.log("items cartAPI", items);
+    for (let item of items) {
+      console.log("Deleted cartAPI", item);
+      await deleteItemFromCart(item.id);
+    }
+    resolve({ status: "success" });
   });
 }
