@@ -10,19 +10,18 @@ import { Dialog, Transition } from "@headlessui/react";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import { Link, Navigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
-import {
-  selectLoggedInUser,
-  updateUserAsync,
-} from "../features/auth/authSlice";
+import { updateUserAsync } from "../features/auth/authSlice";
 import {
   createOrderAsync,
   selectCurrentOrder,
 } from "../features/order/orderSlice";
+import { selectUserInfo } from "../features/user/userSlice";
 
 const Checkout = () => {
   const dispatch = useDispatch();
   const items = useSelector(selectItems);
-  const user = useSelector(selectLoggedInUser);
+  const user = useSelector(selectUserInfo);
+  console.log(user);
   const currentOrder = useSelector(selectCurrentOrder);
 
   //selected address
@@ -269,7 +268,7 @@ const Checkout = () => {
                   </p>
 
                   <ul role="list" className="divide-y divide-gray-100">
-                    {user.addresses.map((address, index) => (
+                    {user?.addresses.map((address, index) => (
                       <li
                         key={index}
                         className="flex justify-between  gap-x-6 py-3 px-4 my-2 border-solid border-2"
