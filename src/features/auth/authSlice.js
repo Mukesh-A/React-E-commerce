@@ -46,7 +46,7 @@ export const updateUserAsync = createAsyncThunk(
   }
 );
 
-export const counterSlice = createSlice({
+export const authSlice = createSlice({
   name: "user",
   initialState,
 
@@ -101,4 +101,4 @@ export const counterSlice = createSlice({
 export const selectLoggedInUser = (state) => state.auth.loggedInUser;
 export const loginError = (state) => state.auth.error;
 
-export default counterSlice.reducer;
+export default authSlice.reducer;

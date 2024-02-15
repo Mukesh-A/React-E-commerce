@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useForm, SubmitHandler } from "react-hook-form";
-import { Link,Navigate } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 import { createUserAsync, selectLoggedInUser } from "../authSlice";
 
 //creating form and getting value ->> https://react-hook-form.com/get-started
@@ -40,6 +40,7 @@ export function Signup() {
                   email: data.email,
                   password: data.password,
                   addresses: [],
+                  role: "user",
                 })
               );
             })}
@@ -79,14 +80,6 @@ export function Signup() {
                 >
                   Password
                 </label>
-                <div className="text-sm">
-                  <a
-                    href="#"
-                    className="font-semibold text-indigo-600 hover:text-indigo-500"
-                  >
-                    Forgot password?
-                  </a>
-                </div>
               </div>
               <div className="mt-2">
                 <input
