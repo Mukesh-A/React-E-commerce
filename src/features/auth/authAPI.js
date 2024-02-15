@@ -29,5 +29,9 @@ export function checkUser(userInfo) {
     }
   });
 }
-
-
+// SignOut
+export function signOut(userId) {
+  return new Promise(async (resolve) => {
+    resolve({ data:'success' });
+  });
+}
