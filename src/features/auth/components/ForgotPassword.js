@@ -1,7 +1,6 @@
-import React, { useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import React from "react";
 
-import { Link, Navigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
 
 const ForgotPassword = () => {
@@ -30,7 +29,6 @@ const ForgotPassword = () => {
             noValidate
             className="space-y-6"
             onSubmit={handleSubmit((data) => {})}
-            
           >
             <div>
               <label

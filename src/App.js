@@ -12,14 +12,12 @@ import SignupPage from "./pages/SignupPage";
 
 // 2days 1.23
 
-import { createRoot } from "react-dom/client";
+
 import {
   createBrowserRouter,
   RouterProvider,
-  Route,
-  Link,
 } from "react-router-dom";
-import { Cart } from "./features/cart/Cart";
+
 import CartPage from "./pages/CartPage";
 import Checkout from "./pages/Checkout";
 import ProductDetailsPage from "./pages/ProductDetailsPage";
@@ -31,11 +29,10 @@ import PageNotFound from "./pages/404";
 import OrderSuccessPage from "./pages/OrderSuccessPage";
 
 import UserOrderPage from "./pages/UserOrderPage";
-import { UserProfile } from "./features/user/components/UserProfile";
+
 import UserProfilePage from "./pages/UserProfilePage";
 import {
   fetchLoggedInUserAsync,
-  selectUserInfo,
 } from "./features/user/userSlice";
 import Logout from "./features/auth/components/Logout";
 import ForgotPasswordPage from "./pages/ForgotPasswordPage";
