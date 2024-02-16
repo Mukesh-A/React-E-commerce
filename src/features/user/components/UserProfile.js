@@ -62,6 +62,11 @@ export function UserProfile() {
           <h3 className="text-xl my-5 font-bold tracking-tight text-red-900">
             email address : {user.email}
           </h3>
+          {user.role === "admin" && (
+            <h3 className="text-xl my-5 font-bold tracking-tight text-red-900">
+              role : {user.role}
+            </h3>
+          )}
         </div>
 
         <div className="border-t border-gray-200 px-4 py-6 sm:px-6">
@@ -319,9 +324,7 @@ export function UserProfile() {
                           <label
                             htmlFor="email"
                             className="block text-sm font-medium leading-6 text-gray-900"
-                          >
-                            Email address
-                          </label>
+                          ></label>
                           <div className="mt-2">
                             <input
                               id="email"

@@ -15,4 +15,4 @@ const ProtectedAdmin = ({ children }) => {
   return children;
 };
 
-export default Protected;
+export default ProtectedAdmin;
