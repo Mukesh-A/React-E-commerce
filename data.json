@@ -1051,6 +1051,7 @@
     {
       "email": "test@gmail.com",
       "password": "Qwerty123",
+      "role":"user",
       "addresses": [
         {
           "name": "John",
