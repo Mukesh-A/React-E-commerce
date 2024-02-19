@@ -78,7 +78,7 @@ export function fetchAllProductsByFilters(filter, sort, pagination) {
     const totalItems = await response.headers.get("X-Total-Count"); /// in http request we have a X-TOTAL-Count which will return total number of products ->> used for pagination
     resolve({ data: { products: data, totalItems: +totalItems } });
   });
-}
+} 
 
 // fetch Categories
 export function fetchCategories() {
