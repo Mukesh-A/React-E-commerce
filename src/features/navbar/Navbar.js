@@ -18,8 +18,8 @@ const user = {
 };
 const navigation = [
   { name: "Dashboard", link: "#", user: false },
-  { name: "Team", link: "#", user: false },
   { name: "Admin", link: "/admin", admin: true },
+  { name: "Orders", link: "/admin/orders", admin: true },
 ];
 const userNavigation = [
   { name: "My Profile", link: "/profile" },
