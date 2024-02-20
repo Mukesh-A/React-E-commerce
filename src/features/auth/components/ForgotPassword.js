@@ -14,11 +14,15 @@ const ForgotPassword = () => {
     <div>
       <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
         <div className="sm:mx-auto sm:w-full sm:max-w-sm">
-        <img
+          <img
             className="mx-auto h-16 w-16"
             src="/eCommerce.png"
             alt="Your Company"
           />
+          <p className="text-gray-400  text-center font-semibold">
+            {" "}
+            Shop && Save
+          </p>
           <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
             Enter email to reset password
           </h2>
