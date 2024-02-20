@@ -3,6 +3,7 @@ import { Disclosure, Menu, Transition } from "@headlessui/react";
 import {
   Bars3Icon,
   ShoppingCartIcon,
+  Cog8ToothIcon,
   XMarkIcon,
 } from "@heroicons/react/24/outline";
 import { Link } from "react-router-dom";
@@ -61,7 +62,7 @@ export default function Navbar({ children }) {
                     </div>{" "}
                     <p className="text-gray-400 mx-2 font-semibold">
                       {" "}
-                      Shop && Save
+                      Shop & Save
                     </p>
                     <div className="hidden md:block">
                       <div className="ml-10 flex items-baseline space-x-4">
@@ -112,10 +113,14 @@ export default function Navbar({ children }) {
                           <Menu.Button className="relative flex max-w-xs items-center rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
                             <span className="absolute -inset-1.5" />
                             <span className="sr-only">Open user menu</span>
-                            <img
+                            {/* <img
                               className="h-8 w-8 rounded-full"
                               src={user.imageUrl}
-                              alt=""
+                              alt="A"
+                            /> */}
+                            <Cog8ToothIcon
+                              className="h-6 w-6 text-gray-300"
+                              aria-hidden="true"
                             />
                           </Menu.Button>
                         </div>
@@ -172,30 +177,39 @@ export default function Navbar({ children }) {
 
               <Disclosure.Panel className="md:hidden">
                 <div className="space-y-1 px-2 pb-3 pt-2 sm:px-3">
-                  {navigation.map((item) => (
-                    <Disclosure.Button
-                      key={item.name}
-                      as="a"
-                      href={item.href}
-                      className={classNames(
-                        item.current
-                          ? "bg-gray-900 text-white"
-                          : "text-gray-300 hover:bg-gray-700 hover:text-white",
-                        "block rounded-md px-3 py-2 text-base font-medium"
-                      )}
-                      aria-current={item.current ? "page" : undefined}
-                    >
-                      {item.name}
-                    </Disclosure.Button>
-                  ))}
+                  {navigation.map(
+                    (item) =>
+                      item[user.role] && (
+                        <Disclosure.Button
+                          key={item.name}
+                          as="a"
+                          href={item.href}
+                          className={classNames(
+                            item.current
+                              ? "bg-gray-900 text-white"
+                              : "text-gray-300 hover:bg-gray-700 hover:text-white",
+                            "block rounded-md px-3 py-2 text-base font-medium"
+                          )}
+                          aria-current={item.current ? "page" : undefined}
+                        >
+                          <Link key={item.name} to={item.link}>
+                            {item.name}
+                          </Link>
+                        </Disclosure.Button>
+                      )
+                  )}
                 </div>
                 <div className="border-t border-gray-700 pb-3 pt-4">
                   <div className="flex items-center px-5">
                     <div className="flex-shrink-0">
-                      <img
+                      {/* <img
                         className="h-10 w-10 rounded-full"
                         src={user.imageUrl}
                         alt=""
+                      /> */}
+                      <Cog8ToothIcon
+                        className="h-6 w-6 text-gray-300"
+                        aria-hidden="true"
                       />
                     </div>
                     <div className="ml-3">
@@ -233,7 +247,7 @@ export default function Navbar({ children }) {
                         href={item.href}
                         className="block rounded-md px-3 py-2 text-base font-medium text-gray-400 hover:bg-gray-700 hover:text-white"
                       >
-                        {item.name}
+                        <Link to={item.link}>{item.name}</Link>
                       </Disclosure.Button>
                     ))}
                   </div>
@@ -243,13 +257,13 @@ export default function Navbar({ children }) {
           )}
         </Disclosure>
 
-        <header className="bg-white shadow">
+        {/* <header className="bg-white shadow">
           <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
             <h1 className="text-3xl font-bold tracking-tight text-gray-900">
               Dashboard
             </h1>
           </div>
-        </header>
+        </header> */}
         <main>
           <div className="mx-auto max-w-7xl py-6 sm:px-6 lg:px-8">
             {children}

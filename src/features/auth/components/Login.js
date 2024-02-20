@@ -26,7 +26,7 @@ export function Login() {
           />
           <p className="text-gray-400  text-center font-semibold">
             {" "}
-            Shop && Save
+            Shop & Save
           </p>
           <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
             Sign in to your account

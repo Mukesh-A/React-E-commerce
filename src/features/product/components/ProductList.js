@@ -188,13 +188,13 @@ export default function ProductList() {
                   </Transition>
                 </Menu>
 
-                <button
+                {/* <button
                   type="button"
                   className="-m-2 ml-5 p-2 text-gray-400 hover:text-gray-500 sm:ml-7"
                 >
                   <span className="sr-only">View grid</span>
                   <Squares2X2Icon className="h-5 w-5" aria-hidden="true" />
-                </button>
+                </button> */}
                 <button
                   type="button"
                   className="-m-2 ml-4 p-2 text-gray-400 hover:text-gray-500 sm:ml-6 lg:hidden"
@@ -450,7 +450,7 @@ function ProductGrid({ products, status }) {
                       </h2> */}
 
         <div className="mt-6 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:gap-x-8">
-        {status === 'loading' ? (
+          {status === "loading" ? (
             <Grid
               height="80"
               width="80"
