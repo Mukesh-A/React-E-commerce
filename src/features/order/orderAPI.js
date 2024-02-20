@@ -25,8 +25,12 @@ export function updateOrder(order) {
   });
 }
 
-export function fetchAllOrders({ pagination }) {
+export function fetchAllOrders(sort, pagination) {
   let queryString = "";
+  for (let key in sort) {
+    // console.log(pagination);
+    queryString += `${key}=${sort[key]}&`;
+  }
   for (let key in pagination) {
     // console.log(pagination);
     queryString += `${key}=${pagination[key]}&`;
@@ -36,6 +40,7 @@ export function fetchAllOrders({ pagination }) {
     const response = await fetch("http://localhost:8080/orders?" + queryString);
     const data = await response.json();
     const totalOrders = await response.headers.get("X-Total-Count"); /// in
+    console.log("form order api", data);
     resolve({ data: { products: data, totalOrders: +totalOrders } });
   });
 }
