@@ -17,8 +17,8 @@ const user = {
     "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
 };
 const navigation = [
-  { name: "Dashboard", link: "#", user: false },
-  { name: "Admin", link: "/admin", admin: true },
+  { name: "Products", link: "/", user: true },
+  { name: "Products", link: "/admin", admin: true },
   { name: "Orders", link: "/admin/orders", admin: true },
 ];
 const userNavigation = [
@@ -54,8 +54,8 @@ export default function Navbar({ children }) {
                   <div className="flex items-center">
                     <div className="flex-shrink-0">
                       <img
-                        className="h-8 w-8"
-                        src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=500"
+                        className="h-10 w-10 "
+                        src="/eCommerce.png"
                         alt="Your Company"
                       />
                     </div>

@@ -5,6 +5,8 @@ import "./App.css";
 import Home from "./pages/Home";
 import LoginPage from "./pages/LoginPage";
 import SignupPage from "./pages/SignupPage";
+import { positions, Provider } from "react-alert";
+import AlertTemplate from "react-alert-template-basic";
 
 // day1 40.30
 
@@ -37,6 +39,11 @@ import AdminProductDetailsPage from "./pages/AdminProductDetailsPage";
 import ProductForm from "./features/admin/components/ProductForm";
 import AdminProductFormPage from "./pages/AdminProductFormPage";
 import AdminOrdersPage from "./pages/AdminOrdersPage";
+
+const options = {
+  timeout: 5000,
+  position: positions.BOTTOM_LEFT,
+};
 
 const router = createBrowserRouter([
   {
@@ -161,7 +168,9 @@ function App() {
 
   return (
     <div className="App">
-      <RouterProvider router={router} />
+      <Provider template={AlertTemplate} {...options}>
+        <RouterProvider router={router} />
+      </Provider>
     </div>
   );
 }
