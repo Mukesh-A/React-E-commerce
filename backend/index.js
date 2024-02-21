@@ -1,18 +1,27 @@
 const express = require("express");
 const server = express();
 const mongoose = require("mongoose");
+const dotenv = require("dotenv");
+const { createProduct } = require("./controller/Product");
+dotenv.config();
 
-main().catch((err) => console.log(err));
-
-async function main() {
-  await mongoose.connect("mongodb://127.0.0.1:27017/test");
-  console.log("Database connected");
-}
+//middleware
+server.use(express.json());
 
 server.get("/", (req, res) => {
   res.send({ status: "success" });
 });
 
-server.listen(8000, () => {
-  console.log("server started");
-});
+server.post("/products",  createProduct);
+
+// Database connection
+const MONGODB_URL = process.env.MONGO_URL;
+const port = process.env.PORT;
+mongoose
+  .connect(MONGODB_URL)
+  .then(() => {
+    server.listen(port, () => {
+      console.log(`Server Running in port ${port}`);
+    });
+  })
+  .catch((err) => console.log(err));
