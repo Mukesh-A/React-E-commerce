@@ -2,17 +2,18 @@ const express = require("express");
 const server = express();
 const mongoose = require("mongoose");
 const dotenv = require("dotenv");
-const { createProduct } = require("./controller/Product");
+const productRouters = require("./routes/Products");
 dotenv.config();
 
 //middleware
 server.use(express.json());
+server.use("/products", productRouters.router);
 
 server.get("/", (req, res) => {
   res.send({ status: "success" });
 });
 
-server.post("/products",  createProduct);
+// server
 
 // Database connection
 const MONGODB_URL = process.env.MONGO_URL;
