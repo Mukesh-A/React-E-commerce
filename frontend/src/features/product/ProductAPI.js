@@ -48,7 +48,14 @@ export function fetchProductById(id) {
 
 // fetch all products with filter
 export function fetchAllProductsByFilters(filter, sort, pagination) {
-  // console.log("filter from api", filter);
+  // console.log(
+  //   "fetchAllProductsByFilters  filter",
+  //   filter,
+  //   "sort",
+  //   sort,
+  //   "pagination",
+  //   pagination
+  // );
   let queryString = "";
 
   for (let key in filter) {
@@ -57,7 +64,12 @@ export function fetchAllProductsByFilters(filter, sort, pagination) {
 
     if (categoryValues.length > 0) {
       const lastCategoryValue = categoryValues[categoryValues.length - 1];
+
+      // console.log("lastCategoryValue", lastCategoryValue);
+
       queryString += `${key}=${lastCategoryValue}&`;
+
+      // console.log("queryString", queryString);
     }
   }
 
@@ -78,7 +90,7 @@ export function fetchAllProductsByFilters(filter, sort, pagination) {
     const totalItems = await response.headers.get("X-Total-Count"); /// in http request we have a X-TOTAL-Count which will return total number of products ->> used for pagination
     resolve({ data: { products: data, totalItems: +totalItems } });
   });
-} 
+}
 
 // fetch Categories
 export function fetchCategories() {
