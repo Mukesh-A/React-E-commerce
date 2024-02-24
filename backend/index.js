@@ -3,11 +3,15 @@ const server = express();
 const mongoose = require("mongoose");
 const dotenv = require("dotenv");
 const productRouters = require("./routes/Products");
+const brandRouters = require("./routes/Brands");
+const categoriesRouters = require("./routes/Categories");
 dotenv.config();
 
 //middleware
 server.use(express.json());
 server.use("/products", productRouters.router);
+server.use("/brand", brandRouters.router);
+server.use("/categories", categoriesRouters.router);
 
 server.get("/", (req, res) => {
   res.send({ status: "success" });
