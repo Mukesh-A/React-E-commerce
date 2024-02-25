@@ -10,7 +10,7 @@ dotenv.config();
 //middleware
 server.use(express.json());
 server.use("/products", productRouters.router);
-server.use("/brand", brandRouters.router);
+server.use("/brands", brandRouters.router);
 server.use("/categories", categoriesRouters.router);
 
 server.get("/", (req, res) => {

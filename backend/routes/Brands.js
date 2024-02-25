@@ -1,9 +1,9 @@
 const express = require("express");
-const { fetchBrands } = require("../controller/Brand");
+const { fetchBrands, createBrand } = require("../controller/Brand");
 
 const router = express.Router();
 
 // /brands is already in base
-router.get("/", fetchBrands);
+router.get("/", fetchBrands).post("/", createBrand);
 
 exports.router = router;

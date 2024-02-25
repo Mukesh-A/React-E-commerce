@@ -1,10 +1,9 @@
 const express = require("express");
-const { fetchCategories } = require("../controller/Category");
-
+const { fetchCategories, createCategory } = require("../controller/Category");
 
 const router = express.Router();
 
 // /categories is already in base
-router.get("/", fetchCategories);
+router.get("/", fetchCategories).post("/", createCategory);
 
 exports.router = router;
