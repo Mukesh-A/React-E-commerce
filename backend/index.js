@@ -2,15 +2,29 @@ const express = require("express");
 const server = express();
 const mongoose = require("mongoose");
 const dotenv = require("dotenv");
+const cors = require("cors");
+
+//routers
 const productRouters = require("./routes/Products");
 const brandRouters = require("./routes/Brands");
 const categoriesRouters = require("./routes/Categories");
-const cors = require("cors");
+const usersRouters = require("./routes/Users");
+const authRouters = require("./routes/Auth");
+
+//env
 dotenv.config();
 
 //middleware
-server.use(cors());
+// we are using exposedHeaders because in frontend we have used X-Total-Count from the header request to count number of items from the request . so when we are doing that in backend we have to use exposedHeaders to expose the X-Total-Count so properly the pagination will be displayed
+server.use(
+  cors({
+    exposedHeaders: ["X-Total-Count"],
+  })
+);
+
 server.use(express.json());
+server.use("/users", usersRouters.router);
+server.use("/auth", authRouters.router);
 server.use("/products", productRouters.router);
 server.use("/brands", brandRouters.router);
 server.use("/categories", categoriesRouters.router);

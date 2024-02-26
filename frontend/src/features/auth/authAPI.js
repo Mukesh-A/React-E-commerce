@@ -1,7 +1,7 @@
 // SignUp
 export function createUser(userData) {
   return new Promise(async (resolve) => {
-    const response = await fetch("http://localhost:8080/users", {
+    const response = await fetch("http://localhost:8080/auth/signup", {
       method: "post",
       body: JSON.stringify(userData),
       headers: { "content-type": "application/json" },
@@ -32,6 +32,6 @@ export function checkUser(userInfo) {
 // SignOut
 export function signOut(userId) {
   return new Promise(async (resolve) => {
-    resolve({ data:'success' });
+    resolve({ data: "success" });
   });
 }

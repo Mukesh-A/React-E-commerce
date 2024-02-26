@@ -6,7 +6,7 @@ exports.createProduct = async (req, res) => {
     const doc = await product.save();
     res.status(201).json(doc);
   } catch (error) {
-    res.status(400).json(err);
+    res.status(400).json(error);
   }
 };
 exports.fetchAllProducts = async (req, res) => {
@@ -61,7 +61,7 @@ exports.fetchProductById = async (req, res) => {
     const product = await Product.findById(id);
     res.status(200).json(product);
   } catch (error) {
-    res.status(400).json(err);
+    res.status(400).json(error);
   }
 };
 exports.updateProduct = async (req, res) => {
@@ -71,6 +71,6 @@ exports.updateProduct = async (req, res) => {
     const product = await Product.findByIdAndUpdate(id, req.body, {new:true});
     res.status(200).json(product);
   } catch (error) {
-    res.status(400).json(err);
+    res.status(400).json(error);
   }
 };

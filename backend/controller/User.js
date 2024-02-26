@@ -1,0 +1,33 @@
+const { User } = require("../model/User");
+
+exports.createUser = async (req, res) => {
+  const user = new User(req.body);
+  try {
+    const doc = await user.save();
+    res.status(201).json(doc);
+  } catch (error) {
+    res.status(400).json(error);
+  }
+};
+
+exports.fetchUserById = async (req, res) => {
+  const { id } = req.params;
+  try {
+    // in findId() 2nd parameter we have passed name email id --> which is called *projection* where only those field will be available
+    const brands = await User.findId(id, "name email id").exec();
+    res.status(200).json(brands);
+  } catch (err) {
+    res.status(400).json(err);
+  }
+};
+
+exports.updateUser = async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const user = await User.findByIdAndUpdate(id, req.body, { new: true });
+    res.status(201).json(user);
+  } catch (error) {
+    res.status(400).json(error);
+  }
+};
