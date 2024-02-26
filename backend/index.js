@@ -5,9 +5,11 @@ const dotenv = require("dotenv");
 const productRouters = require("./routes/Products");
 const brandRouters = require("./routes/Brands");
 const categoriesRouters = require("./routes/Categories");
+const cors = require("cors");
 dotenv.config();
 
 //middleware
+server.use(cors());
 server.use(express.json());
 server.use("/products", productRouters.router);
 server.use("/brands", brandRouters.router);
