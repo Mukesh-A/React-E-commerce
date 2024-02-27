@@ -13,9 +13,9 @@ exports.createUser = async (req, res) => {
 exports.fetchUserById = async (req, res) => {
   const { id } = req.params;
   try {
-    // in findId() 2nd parameter we have passed name email id --> which is called *projection* where only those field will be available
-    const brands = await User.findId(id, "name email id").exec();
-    res.status(200).json(brands);
+    // in findById() 2nd parameter we have passed name email id --> which is called *projection* where only those field will be available
+    const user = await User.findById(id).exec();
+    res.status(200).json(user);
   } catch (err) {
     res.status(400).json(err);
   }

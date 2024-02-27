@@ -94,17 +94,16 @@ export default function ProductDetails() {
 
   const handelCart = (e) => {
     e.preventDefault();
-    if (items.findIndex((item) => item.productId === product.id) < 0) {
+    if (items.findIndex((item) => item.product.id === product.id) < 0) {
       const newItem = {
-        ...product,
-        productId: product.id,
+        product: product.id,
         quantity: 1,
         user: user.id,
       };
-      delete newItem["id"];
       dispatch(addToCartAsync(newItem));
+      alert.success("Item added to Cart");
     } else {
-      console.log("item already added");
+      alert.error("Item Already added");
     }
   };
 
