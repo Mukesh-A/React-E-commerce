@@ -12,20 +12,24 @@ export function createUser(userData) {
 }
 
 // Login
-export function checkUser(userInfo) {
+export function checkUser(loginInfo) {
   return new Promise(async (resolve, reject) => {
-    const email = userInfo.email;
-    const password = userInfo.password;
-    const response = await fetch("http://localhost:8080/users?email=" + email);
-    const data = await response.json();
-    if (data.length) {
-      if (password === data[0].password) {
-        resolve({ data: data[0] });
+    console.log("api", JSON.stringify(loginInfo));
+    try {
+      const response = await fetch("http://localhost:8080/auth/login", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify(loginInfo),
+      });
+      if (response.ok) {
+        const data = await response.json();
+        resolve({ data });
       } else {
-        reject({ message: "credential not match" });
+        const error = await response.json();
+        reject(error);
       }
-    } else {
-      reject({ message: "user not found" });
+    } catch (error) {
+      reject(error);
     }
   });
 }
