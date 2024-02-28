@@ -8,11 +8,11 @@ import {
 import { discountedPrice } from "../../../app/constants";
 
 const UserOrders = () => {
-  const user = useSelector(selectUserInfo);
+  const userInfo = useSelector(selectUserInfo);
   const orders = useSelector(selectUserOrders);
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(fetchLoggedInUserOrdersAsync(user.id));
+    dispatch(fetchLoggedInUserOrdersAsync(userInfo.id));
   }, []);
   return (
     <div>

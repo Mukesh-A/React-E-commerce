@@ -108,7 +108,7 @@ export default function AdminProductList() {
 
   useEffect(() => {
     const pagination = { _page: page, _limit: ITEMS_PER_PAGE };
-    dispatch(fetchAllProductsByFiltersAsync({ filter, sort, pagination }));
+    dispatch(fetchAllProductsByFiltersAsync({ filter, sort, pagination,admin:true }));
   }, [dispatch, filter, sort, page]);
 
   //to update pagination from page 1

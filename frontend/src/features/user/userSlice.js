@@ -6,7 +6,6 @@ import {
 } from "./userAPI";
 
 const initialState = {
-  userOrders: [],
   status: "idle",
   userInfo: null,
 };
@@ -56,7 +55,7 @@ export const userSlice = createSlice({
       .addCase(fetchLoggedInUserOrdersAsync.fulfilled, (state, action) => {
         state.status = "idle";
         //this info is different from loggedIn User
-        state.userOrders = action.payload;
+        state.userInfo.orders = action.payload;
       })
       //update user
       .addCase(updateUserAsync.pending, (state) => {
@@ -64,7 +63,7 @@ export const userSlice = createSlice({
       })
       .addCase(updateUserAsync.fulfilled, (state, action) => {
         state.status = "idle";
-        state.loggedInUser = action.payload;
+        state.userInfo = action.payload;
       })
       .addCase(fetchLoggedInUserAsync.pending, (state) => {
         state.status = "loading";
@@ -76,7 +75,7 @@ export const userSlice = createSlice({
   },
 });
 
-export const selectUserOrders = (state) => state.user.userOrders;
+export const selectUserOrders = (state) => state.user.userInfo.orders;
 export const selectUserInfo = (state) => state.user.userInfo;
 
 export default userSlice.reducer;

@@ -47,7 +47,7 @@ export function fetchProductById(id) {
 }
 
 // fetch all products with filter
-export function fetchAllProductsByFilters(filter, sort, pagination) {
+export function fetchAllProductsByFilters(filter, sort, pagination, admin) {
   // console.log(
   //   "fetchAllProductsByFilters  filter",
   //   filter,
@@ -80,6 +80,9 @@ export function fetchAllProductsByFilters(filter, sort, pagination) {
   for (let key in pagination) {
     // console.log(pagination);
     queryString += `${key}=${pagination[key]}&`;
+  }
+  if (admin) {
+    queryString += `admin=true`;
   }
 
   return new Promise(async (resolve) => {
