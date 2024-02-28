@@ -454,15 +454,17 @@ function ProductForm() {
           </button>
         </div>
       </form>
-      {selectedProduct &&<Modal
-        title={`Delete ${selectedProduct?.title}`}
-        message="Are you sure you want to delete this Product ?"
-        dangerOption="Delete"
-        cancelOption="Cancel"
-        dangerAction={handleDelete}
-        cancelAction={() => setOpenModal(null)}
-        showModal={openModal}
-      ></Modal>}
+      {selectedProduct && (
+        <Modal
+          title={`Delete ${selectedProduct?.title}`}
+          message="Are you sure you want to delete this Product ?"
+          dangerOption="Delete"
+          cancelOption="Cancel"
+          dangerAction={handleDelete}
+          cancelAction={() => setOpenModal(null)}
+          showModal={openModal}
+        ></Modal>
+      )}
     </>
   );
 }
