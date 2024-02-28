@@ -22,6 +22,7 @@ function ProductForm() {
     formState: { errors },
   } = useForm();
   const [openModal, setOpenModal] = useState(null);
+  const alert = useAlert();
   const brands = useSelector(selectBrands);
   const categories = useSelector(selectCategories);
   const dispatch = useDispatch();
@@ -84,9 +85,11 @@ function ProductForm() {
             product.id = params.id;
             product.rating = selectedProduct.rating || 0;
             dispatch(updateProductAsync(product));
+            alert.success("Product Updated");
             reset();
           } else {
             dispatch(createProductAsync(product));
+            alert.success("Product Created");
             reset();
             //TODO:  on product successfully added clear fields and show a message
           }
