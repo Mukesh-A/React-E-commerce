@@ -1,6 +1,6 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { checkUserAsync, loginError, selectLoggedInUser } from "../authSlice";
+import { loginUserAsync, selectError, selectLoggedInUser } from "../authSlice";
 import { Link, Navigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 
@@ -12,7 +12,7 @@ export function Login() {
     formState: { errors },
   } = useForm();
   const user = useSelector(selectLoggedInUser);
-  const error = useSelector(loginError);
+  const error = useSelector(selectError);
 
   return (
     <div>
@@ -39,7 +39,7 @@ export function Login() {
             className="space-y-6"
             onSubmit={handleSubmit((data) => {
               dispatch(
-                checkUserAsync({ email: data.email, password: data.password })
+                loginUserAsync({ email: data.email, password: data.password })
               );
             })}
             action="#"

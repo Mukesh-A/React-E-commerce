@@ -17,8 +17,8 @@ const UserOrders = () => {
     dispatch(fetchLoggedInUserOrdersAsync());
   }, [dispatch]);
   return (
-    <div className="text-center">
-      {orders > 0 ? (
+    <div className="">
+      {orders && orders.length > 0 ? (
         orders.map((order) => (
           <div>
             <div>
@@ -119,7 +119,7 @@ const UserOrders = () => {
           </div>
         ))
       ) : (
-        <h1 className="h-screen text-3xl text-center  font-bold text-gray-400">
+        <h1 className="h-screen text-5xl text-center  font-bold text-gray-400">
           No Orders
         </h1>
       )}

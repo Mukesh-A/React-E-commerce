@@ -30,7 +30,7 @@ exports.createUser = async (req, res) => {
               }) // 1 hr cookie will be valid
 
               .status(201)
-              .json(token);
+              .json({ id: doc.id, role: doc.role });
           }
         });
       }
@@ -40,15 +40,21 @@ exports.createUser = async (req, res) => {
   }
 };
 exports.loginUser = async (req, res) => {
+  const user = req.user;
+  console.log("checkAuth", req.user.token);
   res
     .cookie("jwt", req.user.token, {
       expires: new Date(Date.now() + 3600000),
       httpOnly: true,
     }) // 1 hr cookie will be valid.json(req.user);
     .status(201)
-    .json(req.user.token);
+    .json(user.token);
 };
 
-exports.checkUser = async (req, res) => {
-  res.json(req.user);
+exports.checkAuth = async (req, res) => {
+  if (req.user) {
+    res.json(req.user);
+  } else {
+    res.sendStatus(401);
+  }
 };

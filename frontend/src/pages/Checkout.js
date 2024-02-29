@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import {
   cartItems,
   deleteItemFromCartAsync,
+  selectCartLoaded,
   selectItems,
   updateCartAsync,
 } from "../features/cart/cartSlice";
@@ -22,6 +23,7 @@ const Checkout = () => {
   const dispatch = useDispatch();
   const items = useSelector(selectItems);
   const user = useSelector(selectUserInfo);
+  const cartLoaded = useSelector(selectCartLoaded);
   console.log(user);
   const currentOrder = useSelector(selectCurrentOrder);
 
@@ -76,7 +78,9 @@ const Checkout = () => {
 
   return (
     <>
-      {!items.length && <Navigate to="/" replace={true}></Navigate>}
+      {!items.length && cartLoaded && (
+        <Navigate to="/" replace={true}></Navigate>
+      )}
       {currentOrder && (
         <Navigate
           to={`/order-success/${currentOrder.id}`}
@@ -273,7 +277,7 @@ const Checkout = () => {
                   </p>
 
                   <ul role="list" className="divide-y divide-gray-100">
-                    {user.addresses.map((address, index) => (
+                    {user?.addresses.map((address, index) => (
                       <li
                         key={index}
                         className="flex justify-between  gap-x-6 py-3 px-4 my-2 border-solid border-2"
