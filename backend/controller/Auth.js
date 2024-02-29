@@ -17,18 +17,22 @@ exports.createUser = async (req, res) => {
         const user = new User({ ...req.body, password: hashedPassword, salt });
         const doc = await user.save();
 
-        req.login(
-          sanitizerUser(doc, (err) => {
-            if (err) {
-              // this also calls serialization
-              res.status(400).json(err);
-            } else {
-              const token = jwt.sign(sanitizerUser(doc), SECRET_KEY);
+        req.login(sanitizerUser(doc), (err) => {
+          if (err) {
+            // this also calls serialization
+            res.status(400).json(err);
+          } else {
+            const token = jwt.sign(sanitizerUser(doc), SECRET_KEY);
+            res
+              .cookie("jwt", token, {
+                expires: new Date(Date.now() + 3600000),
+                httpOnly: true,
+              }) // 1 hr cookie will be valid
 
-              res.status(201).json(token);
-            }
-          })
-        );
+              .status(201)
+              .json(token);
+          }
+        });
       }
     );
   } catch (error) {
@@ -36,8 +40,15 @@ exports.createUser = async (req, res) => {
   }
 };
 exports.loginUser = async (req, res) => {
-  res.json(req.user);
+  res
+    .cookie("jwt", req.user.token, {
+      expires: new Date(Date.now() + 3600000),
+      httpOnly: true,
+    }) // 1 hr cookie will be valid.json(req.user);
+    .status(201)
+    .json(req.user.token);
 };
+
 exports.checkUser = async (req, res) => {
   res.json(req.user);
 };

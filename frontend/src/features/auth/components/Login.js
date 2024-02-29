@@ -108,7 +108,7 @@ export function Login() {
                 Sign in
               </button>
             </div>
-            {error && <p className="text-red-500">{error.message}</p>}
+            {error && <p className="text-red-500">{error || error.message}</p>}
           </form>
 
           <p className="mt-10 text-center text-sm text-gray-500">

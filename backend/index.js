@@ -1,19 +1,27 @@
 const express = require("express");
+const server = express();
 const cors = require("cors");
 const mongoose = require("mongoose");
 const session = require("express-session");
 const passport = require("passport");
 const LocalStrategy = require("passport-local").Strategy;
+const cookieParser = require("cookie-parser");
 const crypto = require("crypto");
 const jwt = require("jsonwebtoken");
+const { isAuth, sanitizerUser, cookieExtractor } = require("./service/common");
 
 //jwt
 const SECRET_KEY = "SECRET_KEY";
 const JwtStrategy = require("passport-jwt").Strategy;
 const ExtractJwt = require("passport-jwt").ExtractJwt;
+
 var opts = {};
-opts.jwtFromRequest = ExtractJwt.fromAuthHeaderAsBearerToken();
+opts.jwtFromRequest = cookieExtractor;
 opts.secretOrKey = SECRET_KEY;
+const { User } = require("./model/User");
+
+server.use(express.static("build"));
+server.use(cookieParser());
 
 //routers
 const productRouters = require("./routes/Products");
@@ -24,14 +32,10 @@ const authRouters = require("./routes/Auth");
 const cartRouters = require("./routes/Cart");
 const orderRouters = require("./routes/Order");
 
-const server = express();
-
 //env
 const dotenv = require("dotenv");
 dotenv.config();
 
-const { isAuth, sanitizerUser } = require("./service/common");
-const { User } = require("./model/User");
 mongoose.set("strictQuery", true);
 
 //middleware
@@ -55,13 +59,13 @@ server.use(
 );
 server.use(express.json());
 
-server.use("/users", usersRouters.router);
+server.use("/users", isAuth(), usersRouters.router);
 server.use("/auth", authRouters.router);
-server.use("/products", isAuth, productRouters.router);
-server.use("/brands", brandRouters.router);
-server.use("/categories", categoriesRouters.router);
-server.use("/cart", cartRouters.router);
-server.use("/orders", orderRouters.router);
+server.use("/products", isAuth(), productRouters.router);
+server.use("/brands", isAuth(), brandRouters.router);
+server.use("/categories", isAuth(), categoriesRouters.router);
+server.use("/cart", isAuth(), cartRouters.router);
+server.use("/orders", isAuth(), orderRouters.router);
 
 server.get("/", (req, res) => {
   res.send({ status: "success" });
@@ -70,10 +74,14 @@ server.get("/", (req, res) => {
 // passport strategies
 passport.use(
   "local",
-  new LocalStrategy(async function (username, password, done) {
+  new LocalStrategy({ usernameField: "email" }, async function (
+    email,
+    password,
+    done
+  ) {
     // by default passport uses username
     try {
-      const user = await User.findOne({ email: username }).exec();
+      const user = await User.findOne({ email: email }).exec();
       if (!user) {
         done(null, false, { message: "invalid credentials" });
       }
@@ -85,12 +93,12 @@ passport.use(
         32,
         "sha256",
         async function (err, hashedPassword) {
-          if (!crypto.timingSafeEqual(row.hashed_password, hashedPassword)) {
+          if (!crypto.timingSafeEqual(user.password, hashedPassword)) {
             return done(null, false, { message: "invalid credentials" });
           }
           const token = jwt.sign(sanitizerUser(user), SECRET_KEY);
 
-          done(null, token); // this is send to serializer
+          done(null, { token }); // this is send to serializer
         }
       );
     } catch (err) {
@@ -104,7 +112,7 @@ passport.use(
   "jwt",
   new JwtStrategy(opts, async function (jwt_payload, done) {
     try {
-      const user = await User.findOne({ id: jwt_payload.sub });
+      const user = await User.findById(jwt_payload.id);
       if (user) {
         return done(null, sanitizerUser(user)); //this calls serializer
       } else {

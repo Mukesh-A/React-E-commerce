@@ -13,9 +13,9 @@ export function addToCart(item) {
 }
 
 // fetching all products in cart
-export function fetchItemsByUserId(userId) {
+export function fetchItemsByUserId() {
   return new Promise(async (resolve) => {
-    const response = await fetch("http://localhost:8080/cart?user=" + userId);
+    const response = await fetch("http://localhost:8080/cart");
     const data = await response.json();
     // console.log(data);
     resolve({ data });
@@ -49,10 +49,10 @@ export function deleteItemFromCart(itemId) {
   });
 }
 
-export function resetCart(userId) {
+export function resetCart() {
   //get all items of user's cart -  and then delete each items from cart so we can use above function codes
   return new Promise(async (resolve) => {
-    const response = await fetchItemsByUserId(userId);
+    const response = await fetchItemsByUserId();
     const items = response.data;
     console.log("items cartAPI", items);
     for (let item of items) {

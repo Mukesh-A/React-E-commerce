@@ -70,7 +70,7 @@ const Checkout = () => {
       };
       dispatch(createOrderAsync(order));
     } else {
-      alert('Enter Address and Payment method');
+      alert("Enter Address and Payment method");
     }
   };
 
@@ -273,7 +273,7 @@ const Checkout = () => {
                   </p>
 
                   <ul role="list" className="divide-y divide-gray-100">
-                    {user?.addresses.map((address, index) => (
+                    {user.addresses.map((address, index) => (
                       <li
                         key={index}
                         className="flex justify-between  gap-x-6 py-3 px-4 my-2 border-solid border-2"

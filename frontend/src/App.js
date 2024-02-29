@@ -160,8 +160,8 @@ function App() {
   // to fetch the cart items
   useEffect(() => {
     if (user) {
-      dispatch(fetchItemsByUserIdAsync(user.id));
-      dispatch(fetchLoggedInUserAsync(user.id));
+      dispatch(fetchItemsByUserIdAsync());
+      dispatch(fetchLoggedInUserAsync());
       console.log("app", user.id);
     }
   }, [dispatch, user]);
