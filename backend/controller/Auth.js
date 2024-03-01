@@ -2,7 +2,6 @@ const { User } = require("../model/User");
 const crypto = require("crypto");
 const { sanitizerUser } = require("../service/common");
 const jwt = require("jsonwebtoken");
-const SECRET_KEY = "SECRET_KEY";
 
 exports.createUser = async (req, res) => {
   try {
@@ -22,7 +21,10 @@ exports.createUser = async (req, res) => {
             // this also calls serialization
             res.status(400).json(err);
           } else {
-            const token = jwt.sign(sanitizerUser(doc), SECRET_KEY);
+            const token = jwt.sign(
+              sanitizerUser(doc),
+              process.env.JWT_SECRET_KEY
+            );
             res
               .cookie("jwt", token, {
                 expires: new Date(Date.now() + 3600000),
@@ -48,7 +50,7 @@ exports.loginUser = async (req, res) => {
       httpOnly: true,
     }) // 1 hr cookie will be valid.json(req.user);
     .status(201)
-    .json(user.token);
+    .json({ id: user.id, role: user.role });
 };
 
 exports.checkAuth = async (req, res) => {
