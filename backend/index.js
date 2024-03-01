@@ -25,7 +25,7 @@ const authRouters = require("./routes/Auth");
 const cartRouters = require("./routes/Cart");
 const orderRouters = require("./routes/Order");
 
-mongoose.set("strictQuery", true);
+// mongoose.set("strictQuery", true);
 // Webhook
 
 // TODO: we will capture actual order after deploying out server live on public URL
