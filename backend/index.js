@@ -12,10 +12,13 @@ const path = require("path");
 const { isAuth, sanitizerUser, cookieExtractor } = require("./service/common");
 
 //env
-const { User } = require("./model/User");
 const dotenv = require("dotenv");
 dotenv.config();
 
+server.use(express.static(path.resolve(__dirname, "build")));
+server.use(cookieParser());
+
+const { User } = require("./model/User");
 //routers
 const productRouters = require("./routes/Products");
 const brandRouters = require("./routes/Brands");
@@ -79,9 +82,6 @@ const ExtractJwt = require("passport-jwt").ExtractJwt;
 var opts = {};
 opts.jwtFromRequest = cookieExtractor;
 opts.secretOrKey = process.env.JWT_SECRET_KEY;
-
-server.use(express.static(path.resolve(__dirname, "build")));
-server.use(cookieParser());
 
 server.use(
   session({
@@ -204,6 +204,17 @@ server.post("/create-payment-intent", async (req, res) => {
   const paymentIntent = await stripe.paymentIntents.create({
     amount: totalAmount * 100, // for decimal compensation
     currency: "inr",
+    description: "Software development services",
+    shipping: {
+      name: "Jenny Rosen",
+      address: {
+        line1: "510 Townsend St",
+        postal_code: "98140",
+        city: "San Francisco",
+        state: "CA",
+        country: "US",
+      },
+    },
     automatic_payment_methods: {
       enabled: true,
     },
