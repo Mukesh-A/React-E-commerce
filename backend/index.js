@@ -12,9 +12,20 @@ const path = require("path");
 const { isAuth, sanitizerUser, cookieExtractor } = require("./service/common");
 
 //env
+const { User } = require("./model/User");
 const dotenv = require("dotenv");
 dotenv.config();
 
+//routers
+const productRouters = require("./routes/Products");
+const brandRouters = require("./routes/Brands");
+const categoriesRouters = require("./routes/Categories");
+const usersRouters = require("./routes/Users");
+const authRouters = require("./routes/Auth");
+const cartRouters = require("./routes/Cart");
+const orderRouters = require("./routes/Order");
+
+mongoose.set("strictQuery", true);
 // Webhook
 
 // TODO: we will capture actual order after deploying out server live on public URL
@@ -24,7 +35,7 @@ const endpointSecret = process.env.ENDPOINT_SECRET;
 server.post(
   "/webhook",
   express.raw({ type: "application/json" }),
-  (request, response) => {
+  async (request, response) => {
     const sig = request.headers["stripe-signature"];
 
     let event;
@@ -41,6 +52,13 @@ server.post(
       case "payment_intent.succeeded":
         const paymentIntentSucceeded = event.data.object;
         console.log({ paymentIntentSucceeded });
+
+        const order = await Order.findById(
+          paymentIntentSucceeded.metadata.orderId
+        );
+        order.paymentStatus = "received";
+        await order.save();
+
         // Then define and call a function to handle the event payment_intent.succeeded
         break;
       // ... handle other event types
@@ -61,25 +79,9 @@ const ExtractJwt = require("passport-jwt").ExtractJwt;
 var opts = {};
 opts.jwtFromRequest = cookieExtractor;
 opts.secretOrKey = process.env.JWT_SECRET_KEY;
-const { User } = require("./model/User");
 
 server.use(express.static(path.resolve(__dirname, "build")));
 server.use(cookieParser());
-
-//routers
-const productRouters = require("./routes/Products");
-const brandRouters = require("./routes/Brands");
-const categoriesRouters = require("./routes/Categories");
-const usersRouters = require("./routes/Users");
-const authRouters = require("./routes/Auth");
-const cartRouters = require("./routes/Cart");
-const orderRouters = require("./routes/Order");
-
-mongoose.set("strictQuery", true);
-
-//middleware
-
-//passport
 
 server.use(
   session({
@@ -99,6 +101,11 @@ server.use(
 // server.use(express.raw({ type: "application/json" }));
 server.use(express.json());
 
+//middleware
+
+//passport
+
+
 server.use("/users", isAuth(), usersRouters.router);
 server.use("/auth", authRouters.router);
 server.use("/products", isAuth(), productRouters.router);
@@ -111,9 +118,9 @@ server.get("*", (req, res) =>
   res.sendFile(path.resolve("build", "index.html"))
 );
 
-server.get("/", (req, res) => {
-  res.send({ status: "success" });
-});
+// server.get("/", (req, res) => {
+//   res.send({ status: "success" });
+// });
 
 // passport strategies
 passport.use(
@@ -145,7 +152,7 @@ passport.use(
             process.env.JWT_SECRET_KEY
           );
 
-          done(null, { id: user.id, role: user.role }); // this is send to serializer
+          done(null, { id: user.id, role: user.role,token }); // this is send to serializer
         }
       );
     } catch (err) {
