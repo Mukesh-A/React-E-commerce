@@ -133,15 +133,27 @@ const router = createBrowserRouter([
   },
   {
     path: "/order-success/:id",
-    element: <OrderSuccessPage />,
+    element: (
+      <ProtectedAdmin>
+        <OrderSuccessPage />
+      </ProtectedAdmin>
+    ),
   },
   {
     path: "/my-orders",
-    element: <UserOrderPage />,
+    element: (
+      <ProtectedAdmin>
+        <UserOrderPage />
+      </ProtectedAdmin>
+    ),
   },
   {
     path: "/profile",
-    element: <UserProfilePage />,
+    element: (
+      <ProtectedAdmin>
+        <UserProfilePage />
+      </ProtectedAdmin>
+    ),
   },
   {
     path: "/stripe-checkout/",
