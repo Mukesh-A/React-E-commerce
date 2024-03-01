@@ -6,8 +6,10 @@ import { checkAuthAsync } from "../../auth/authSlice";
 
 export function UserProfile() {
   // const count = useSelector(selectCount);
-
   const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(checkAuthAsync());
+  }, [dispatch]);
   const userInfo = useSelector(selectUserInfo);
   const [selectedEditIndex, setSelectedEditIndex] = useState(-1);
   const [showAddAddressForm, setShowAddAddressForm] = useState(false);
@@ -54,10 +56,6 @@ export function UserProfile() {
     dispatch(updateUserAsync(newUser));
     setShowAddAddressForm(false);
   };
-
-  useEffect(() => {
-    dispatch(checkAuthAsync());
-  }, [dispatch]);
 
   return (
     <div>
