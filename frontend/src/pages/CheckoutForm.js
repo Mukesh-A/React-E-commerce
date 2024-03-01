@@ -64,7 +64,7 @@ export default function CheckoutForm() {
         return_url: `https://shop-and-save.vercel.app/order-success/${currentOrder.id}`,
       },
     });
-
+console.log(currentOrder.id);
     // This point will only be reached if there is an immediate error when
     // confirming the payment. Otherwise, your customer will be redirected to
     // your `return_url`. For some payment methods like iDEAL, your customer will
