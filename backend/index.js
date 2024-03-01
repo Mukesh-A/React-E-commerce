@@ -27,6 +27,7 @@ const usersRouters = require("./routes/Users");
 const authRouters = require("./routes/Auth");
 const cartRouters = require("./routes/Cart");
 const orderRouters = require("./routes/Order");
+const { Order } = require("./model/Order");
 
 // mongoose.set("strictQuery", true);
 // Webhook
