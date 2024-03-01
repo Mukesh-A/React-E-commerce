@@ -30,7 +30,7 @@ const orderRouters = require("./routes/Order");
 
 // TODO: we will capture actual order after deploying out server live on public URL
 
-const endpointSecret = process.env.ENDPOINT_SECRET;
+const endpointSecret = "we_1OpRVfSE7MlzxXObMQIJMCiQ";
 
 server.post(
   "/webhook",
