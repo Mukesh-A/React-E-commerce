@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { selectUserInfo, updateUserAsync } from "../userSlice";
 import { useForm } from "react-hook-form";
+import { checkAuthAsync } from "../../auth/authSlice";
 
 export function UserProfile() {
   // const count = useSelector(selectCount);
@@ -46,10 +47,17 @@ export function UserProfile() {
   };
 
   const handleAdd = (address) => {
-    const newUser = { ...userInfo, addresses: [...userInfo.addresses, address] };
+    const newUser = {
+      ...userInfo,
+      addresses: [...userInfo.addresses, address],
+    };
     dispatch(updateUserAsync(newUser));
     setShowAddAddressForm(false);
   };
+
+  useEffect(() => {
+    dispatch(checkAuthAsync());
+  }, [dispatch]);
 
   return (
     <div>
