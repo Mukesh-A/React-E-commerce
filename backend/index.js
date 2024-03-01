@@ -30,7 +30,7 @@ const orderRouters = require("./routes/Order");
 
 // TODO: we will capture actual order after deploying out server live on public URL
 
-const endpointSecret = "we_1OpRVfSE7MlzxXObMQIJMCiQ";
+const endpointSecret = process.env.ENDPOINT_SECRET;
 
 server.post(
   "/webhook",
@@ -105,7 +105,6 @@ server.use(express.json());
 
 //passport
 
-
 server.use("/users", isAuth(), usersRouters.router);
 server.use("/auth", authRouters.router);
 server.use("/products", isAuth(), productRouters.router);
@@ -118,9 +117,9 @@ server.get("*", (req, res) =>
   res.sendFile(path.resolve("build", "index.html"))
 );
 
-// server.get("/", (req, res) => {
-//   res.send({ status: "success" });
-// });
+server.get("/", (req, res) => {
+  res.send({ status: "success" });
+});
 
 // passport strategies
 passport.use(
@@ -152,7 +151,7 @@ passport.use(
             process.env.JWT_SECRET_KEY
           );
 
-          done(null, { id: user.id, role: user.role,token }); // this is send to serializer
+          done(null, { id: user.id, role: user.role, token }); // this is send to serializer
         }
       );
     } catch (err) {

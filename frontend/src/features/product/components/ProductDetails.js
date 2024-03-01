@@ -143,22 +143,22 @@ export default function ProductDetails() {
           <div className="mx-auto mt-6 max-w-2xl sm:px-6 lg:grid lg:max-w-7xl lg:grid-cols-3 lg:gap-x-8 lg:px-8">
             <div className="aspect-h-4 aspect-w-3 hidden overflow-hidden rounded-lg lg:block">
               <img
-                src={product.images[0]}
-                alt={product.images[0]}
+                src={product?.images[0] && product?.images[0] }
+                alt={product?.images[0]}
                 className="h-full w-full object-cover object-center"
               />
             </div>
             <div className="hidden lg:grid lg:grid-cols-1 lg:gap-y-8">
               <div className="aspect-h-2 aspect-w-3 overflow-hidden rounded-lg">
                 <img
-                  src={product.images[1]}
+                  src={product.images[1] && product?.images[1]}
                   alt={product.images[1]}
                   className="h-full w-full object-cover object-center"
                 />
               </div>
               <div className="aspect-h-2 aspect-w-3 overflow-hidden rounded-lg">
                 <img
-                  src={product.images[2]}
+                  src={product.images[2] && product?.images[2]}
                   alt={product.images[2]}
                   className="h-full w-full object-cover object-center"
                 />
@@ -166,7 +166,7 @@ export default function ProductDetails() {
             </div>
             <div className="aspect-h-5 aspect-w-4 lg:aspect-h-4 lg:aspect-w-3 sm:overflow-hidden sm:rounded-lg">
               <img
-                src={product.images[3]}
+                src={product.images[3] && product?.images[3]}
                 alt={product.images[3]}
                 className="h-full w-full object-cover object-center"
               />
