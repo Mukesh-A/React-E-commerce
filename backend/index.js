@@ -26,8 +26,6 @@ const { isAuth, sanitizerUser, cookieExtractor } = require("./service/common");
 const { Order } = require("./model/Order");
 const path = require("path");
 
-
-
 // mongoose.set("strictQuery", true);
 // Webhook
 
@@ -75,7 +73,6 @@ server.post(
 );
 
 //jwt
-
 
 const opts = {};
 opts.jwtFromRequest = cookieExtractor;
@@ -152,7 +149,7 @@ passport.use(
             process.env.JWT_SECRET_KEY
           );
 
-          done(null, { id: user.id, role: user.role }); // this is send to serializer
+          done(null, { id: user.id, role: user.role, token }); // this is send to serializer
         }
       );
     } catch (err) {
