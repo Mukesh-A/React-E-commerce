@@ -230,7 +230,7 @@ server.post("/create-payment-intent", async (req, res) => {
 });
 
 // Database connection
-const MONGODB_URL = process.env.MONGODB_URL;
+const MONGODB_URL = process.env.MONGO_URL;
 const port = process.env.PORT;
 mongoose
   .connect(MONGODB_URL, {
