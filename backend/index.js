@@ -117,9 +117,9 @@ server.get("*", (req, res) =>
   res.sendFile(path.resolve("build", "index.html"))
 );
 
-// server.get("/", (req, res) => {
-//   res.send({ status: "success" });
-// });
+server.get("/", (req, res) => {
+  res.send({ status: "success" });
+});
 
 // passport strategies
 passport.use(
