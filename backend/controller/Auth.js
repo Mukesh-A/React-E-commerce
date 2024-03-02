@@ -45,7 +45,7 @@ exports.loginUser = async (req, res) => {
   const user = req.user;
   console.log("checkAuth", req.user.token);
   res
-    .cookie("jwt", req.user.token, {
+    .cookie("jwt", user.token, {
       expires: new Date(Date.now() + 3600000),
       httpOnly: true,
     }) // 1 hr cookie will be valid.json(req.user);
