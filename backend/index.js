@@ -103,13 +103,13 @@ server.use(express.json());
 
 //passport
 
-server.use("/auth", authRouters.router);
 server.use("/products", isAuth(), productRouters.router);
 server.use("/categories", isAuth(), categoriesRouters.router);
 server.use("/brands", isAuth(), brandRouters.router);
 server.use("/users", isAuth(), usersRouters.router);
 server.use("/cart", isAuth(), cartRouters.router);
 server.use("/orders", isAuth(), orderRouters.router);
+server.use("/auth", authRouters.router);
 
 // :check
 // not added
