@@ -8,7 +8,7 @@ const userSchema = new Schema({
   addresses: { type: [Schema.Types.Mixed] },
   name: { type: String },
   salt: Buffer,
-  orders: { type: [Schema.Types.Mixed] },
+  // orders: { type: [Schema.Types.Mixed] }, :check
 });
 
 const virtual = userSchema.virtual("id");

@@ -14,7 +14,7 @@ exports.fetchUserById = async (req, res) => {
   const { id } = req.user;
   try {
     // in findById() 2nd parameter we have passed name email id --> which is called *projection* where only those field will be available
-    const user = await User.findById(id).exec();
+    const user = await User.findById(id);
     res.status(200).json({
       id: user.id,
       addresses: user.addresses,

@@ -103,17 +103,19 @@ server.use(express.json());
 
 //passport
 
+server.use("/auth", authRouters.router);
 server.use("/products", isAuth(), productRouters.router);
 server.use("/categories", isAuth(), categoriesRouters.router);
 server.use("/brands", isAuth(), brandRouters.router);
 server.use("/users", isAuth(), usersRouters.router);
-server.use("/auth", authRouters.router);
 server.use("/cart", isAuth(), cartRouters.router);
 server.use("/orders", isAuth(), orderRouters.router);
 
-server.get("*", (req, res) =>
-  res.sendFile(path.resolve("build", "index.html"))
-);
+// :check
+// not added
+// server.get("*", (req, res) =>
+//   res.sendFile(path.resolve("build", "index.html"))
+// );
 
 // server.get("/", (req, res) => {
 //   res.send({ status: "success" });
@@ -149,7 +151,7 @@ passport.use(
             process.env.JWT_SECRET_KEY
           );
 
-          done(null, { id: user.id, role: user.role, token }); // this is send to serializer
+          done(null, { id: user.id, role: user.role, token }); // this is send to serializer :check
         }
       );
     } catch (err) {
@@ -163,6 +165,7 @@ passport.use(
   "jwt",
   new JwtStrategy(opts, async function (jwt_payload, done) {
     try {
+      // const user = await User.findById(jwt_payload.id); // :check { id: jwt_payload.sub }
       const user = await User.findById(jwt_payload.id);
       if (user) {
         return done(null, sanitizerUser(user)); //this calls serializer
