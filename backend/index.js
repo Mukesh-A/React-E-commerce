@@ -202,13 +202,16 @@ server.post("/create-payment-intent", async (req, res) => {
   });
 });
 
-main().catch((err) => console.log(err));
-
-async function main() {
-  await mongoose.connect(process.env.MONGODB_URL);
-  console.log("database connected");
-}
-
-server.listen(process.env.PORT, () => {
-  console.log("server started");
-});
+const MONGODB_URL = process.env.MONGODB_URL;
+const port = process.env.PORT;
+mongoose
+  .connect(MONGODB_URL, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  })
+  .then(() => {
+    server.listen(port, () => {
+      console.log(`Server Running in port ${port}`);
+    });
+  })
+  .catch((err) => console.log(err));
