@@ -173,7 +173,7 @@ function App() {
 
   useEffect(() => {
     dispatch(checkAuthAsync());
-  }, [dispatch]);
+  }, []);
 
   // to fetch the cart items
   useEffect(() => {

@@ -10,9 +10,10 @@ exports.sanitizerUser = (user) => {
 exports.cookieExtractor = function (req) {
   let token = null;
   if (req && req.cookies) {
+    console.log("req.cookies", req.cookies);
     token = req.cookies["jwt"];
   }
-  token =
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1ZTFhYTFjNDdlNTE5OTQ2ODdjMDA2YyIsInJvbGUiOiJ1c2VyIiwiaWF0IjoxNzA5MzY4MDU2fQ.Oyt7KkkkssDl9nGrSz-5HWwVxFXZWfV3yl0j0MNwu2k";
+  // token =
+  //   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1ZTFhYTFjNDdlNTE5OTQ2ODdjMDA2YyIsInJvbGUiOiJ1c2VyIiwiaWF0IjoxNzA5MzY4MDU2fQ.Oyt7KkkkssDl9nGrSz-5HWwVxFXZWfV3yl0j0MNwu2k";
   return token;
 };
