@@ -16,17 +16,17 @@ import { Grid } from "react-loader-spinner";
 import Modal from "../common/Modal";
 
 export default function Cart() {
+  const dispatch = useDispatch();
   const items = useSelector(selectItems);
   const status = useSelector(selectCartStatus);
   const cartLoaded = useSelector(selectCartLoaded);
   const [openModal, setOpenModal] = useState(null);
   const totalAmount = items.reduce(
-    (amount, item) => discountedPrice(item.product) * item.quantity + amount,
+    (amount, item) => item.product.discountedPrice * item.quantity + amount,
     0
   );
   const totalItems = items.reduce((total, item) => item.quantity + total, 0);
 
-  const dispatch = useDispatch();
   // const [open, setOpen] = useState(true);
 
   const handelQuantity = (e, item) => {

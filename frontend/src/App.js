@@ -76,7 +76,7 @@ const router = createBrowserRouter([
     element: <SignupPage />,
   },
   {
-    path: "/cart",
+    path: "/my-cart",
     element: (
       <Protected>
         <CartPage />
@@ -161,14 +161,14 @@ const router = createBrowserRouter([
   },
   {
     path: "*",
-    element: <PageNotFound />,
+    element: <PageNotFound></PageNotFound>,
   },
 ]);
 
 function App() {
+  const dispatch = useDispatch();
   const user = useSelector(selectLoggedInUser);
   const userChecked = useSelector(selectUserCheck);
-  const dispatch = useDispatch();
   // const cartItems = useSelector();
 
   useEffect(() => {

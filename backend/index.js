@@ -1,24 +1,32 @@
-const express = require("express");
-const server = express();
-const cors = require("cors");
-const mongoose = require("mongoose");
-const session = require("express-session");
-const passport = require("passport");
-const LocalStrategy = require("passport-local").Strategy;
-const cookieParser = require("cookie-parser");
-const crypto = require("crypto");
-const jwt = require("jsonwebtoken");
-const path = require("path");
-const { isAuth, sanitizerUser, cookieExtractor } = require("./service/common");
-
 //env
 const dotenv = require("dotenv");
 dotenv.config();
-
-server.use(express.static(path.resolve(__dirname, "build")));
-server.use(cookieParser());
-
+const express = require("express");
+const server = express();
+const mongoose = require("mongoose");
+const cors = require("cors");
+const session = require("express-session");
+const passport = require("passport");
+const LocalStrategy = require("passport-local").Strategy;
+const crypto = require("crypto");
+const jwt = require("jsonwebtoken");
+const JwtStrategy = require("passport-jwt").Strategy;
+const ExtractJwt = require("passport-jwt").ExtractJwt;
+const cookieParser = require("cookie-parser");
+//routers
+const productRouters = require("./routes/Products");
+const brandRouters = require("./routes/Brands");
+const categoriesRouters = require("./routes/Categories");
+const usersRouters = require("./routes/Users");
+const authRouters = require("./routes/Auth");
+const cartRouters = require("./routes/Cart");
+const orderRouters = require("./routes/Order");
 const { User } = require("./model/User");
+const { isAuth, sanitizerUser, cookieExtractor } = require("./service/common");
+const { Order } = require("./model/Order");
+const path = require("path");
+
+
 
 // mongoose.set("strictQuery", true);
 // Webhook
@@ -68,23 +76,13 @@ server.post(
 
 //jwt
 
-const JwtStrategy = require("passport-jwt").Strategy;
-const ExtractJwt = require("passport-jwt").ExtractJwt;
 
-var opts = {};
+const opts = {};
 opts.jwtFromRequest = cookieExtractor;
 opts.secretOrKey = process.env.JWT_SECRET_KEY;
 
-//routers
-const productRouters = require("./routes/Products");
-const brandRouters = require("./routes/Brands");
-const categoriesRouters = require("./routes/Categories");
-const usersRouters = require("./routes/Users");
-const authRouters = require("./routes/Auth");
-const cartRouters = require("./routes/Cart");
-const orderRouters = require("./routes/Order");
-const { Order } = require("./model/Order");
-
+server.use(express.static(path.resolve(__dirname, "build")));
+server.use(cookieParser());
 
 server.use(
   session({
@@ -108,11 +106,11 @@ server.use(express.json());
 
 //passport
 
+server.use("/products", isAuth(), productRouters.router);
+server.use("/categories", isAuth(), categoriesRouters.router);
+server.use("/brands", isAuth(), brandRouters.router);
 server.use("/users", isAuth(), usersRouters.router);
 server.use("/auth", authRouters.router);
-server.use("/products", isAuth(), productRouters.router);
-server.use("/brands", isAuth(), brandRouters.router);
-server.use("/categories", isAuth(), categoriesRouters.router);
 server.use("/cart", isAuth(), cartRouters.router);
 server.use("/orders", isAuth(), orderRouters.router);
 
