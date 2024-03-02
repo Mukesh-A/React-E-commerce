@@ -152,7 +152,7 @@ passport.use(
             process.env.JWT_SECRET_KEY
           );
 
-          done(null, { id: user.id, role: user.role, token }); // this is send to serializer
+          done(null, { id: user.id, role: user.role }); // this is send to serializer
         }
       );
     } catch (err) {
