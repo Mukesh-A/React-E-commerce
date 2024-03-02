@@ -1,16 +1,18 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { selectUserInfo, updateUserAsync } from "../userSlice";
+import { selectUserCheck, selectUserInfo, updateUserAsync } from "../userSlice";
 import { useForm } from "react-hook-form";
 import { checkAuthAsync } from "../../auth/authSlice";
 
 export function UserProfile() {
   // const count = useSelector(selectCount);
   const dispatch = useDispatch();
+  const userInfo = useSelector(selectUserInfo);
+  const UserCheck = useSelector(selectUserCheck);
   useEffect(() => {
+    console.log("i came");
     dispatch(checkAuthAsync());
   }, [dispatch]);
-  const userInfo = useSelector(selectUserInfo);
   const [selectedEditIndex, setSelectedEditIndex] = useState(-1);
   const [showAddAddressForm, setShowAddAddressForm] = useState(false);
 
@@ -60,7 +62,7 @@ export function UserProfile() {
   return (
     <div>
       {/* {console.log(userInfo.name)} */}
-      <div className="mx-auto mt-12 bg-white max-w-7xl px-4 sm:px-6 lg:px-8">
+      {UserCheck && <div className="mx-auto mt-12 bg-white max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="border-t border-gray-200 px-4 py-6 sm:px-6">
           <h1 className="text-4xl my-5 font-bold tracking-tight text-gray-900">
             Name: {userInfo.name ? userInfo.name : "New userInfo"}
@@ -531,7 +533,7 @@ export function UserProfile() {
             </div>
           ))}
         </div>
-      </div>
+      </div>}
     </div>
   );
 }
