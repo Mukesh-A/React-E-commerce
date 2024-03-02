@@ -114,9 +114,9 @@ server.use("/auth", authRouters.router);
 server.use("/cart", isAuth(), cartRouters.router);
 server.use("/orders", isAuth(), orderRouters.router);
 
-// server.get("*", (req, res) =>
-//   res.sendFile(path.resolve("build", "index.html"))
-// );
+server.get("*", (req, res) =>
+  res.sendFile(path.resolve("build", "index.html"))
+);
 
 // server.get("/", (req, res) => {
 //   res.send({ status: "success" });

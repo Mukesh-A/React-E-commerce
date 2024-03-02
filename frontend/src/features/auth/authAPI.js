@@ -23,7 +23,7 @@ export function loginUser(loginInfo) {
       });
       if (response.ok) {
         const data = await response.json();
-        resolve({ data });
+        resolve({ data }); 
       } else {
         const error = await response.text();
         reject(error);
