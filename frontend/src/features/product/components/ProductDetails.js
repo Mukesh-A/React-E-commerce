@@ -103,11 +103,11 @@ export default function ProductDetails() {
     } else {
       alert.error("Item Already added");
     }
-  };
-  useEffect(() => {
-    dispatch(checkAuthAsync());
-  }, [dispatch]);
-
+  }; 
+  // useEffect(() => {
+  //   dispatch(checkAuthAsync());
+  // }, [dispatch]);
+ // :mukesh
   useEffect(() => {
     dispatch(fetchProductByIdAsync(params.id));
   }, [dispatch, params.id]);

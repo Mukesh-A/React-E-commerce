@@ -9,10 +9,11 @@ export function UserProfile() {
   const dispatch = useDispatch();
   const userInfo = useSelector(selectUserInfo);
   const UserCheck = useSelector(selectUserCheck);
-  useEffect(() => {
-    console.log("i came");
-    dispatch(checkAuthAsync());
-  }, [dispatch]);
+  // useEffect(() => {
+  //   console.log("i came");
+  //   dispatch(checkAuthAsync());
+  // }, [dispatch]);
+  // :mukesh
   const [selectedEditIndex, setSelectedEditIndex] = useState(-1);
   const [showAddAddressForm, setShowAddAddressForm] = useState(false);
 

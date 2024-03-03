@@ -59,6 +59,7 @@ server.post(
         );
         order.paymentStatus = "received";
         await order.save();
+        
 
         // Then define and call a function to handle the event payment_intent.succeeded
         break;
@@ -107,9 +108,9 @@ server.use("/products", isAuth(), productRouters.router);
 server.use("/categories", isAuth(), categoriesRouters.router);
 server.use("/brands", isAuth(), brandRouters.router);
 server.use("/users", isAuth(), usersRouters.router);
+server.use("/auth", authRouters.router);
 server.use("/cart", isAuth(), cartRouters.router);
 server.use("/orders", isAuth(), orderRouters.router);
-server.use("/auth", authRouters.router);
 
 // :check
 // not added
@@ -117,9 +118,9 @@ server.get("*", (req, res) =>
   res.sendFile(path.resolve("build", "index.html"))
 );
 
-server.get("/", (req, res) => {
-  res.send({ status: "success" });
-});
+// server.get("/", (req, res) => {
+//   res.send({ status: "success" });
+// });
 
 // passport strategies
 passport.use(
@@ -166,6 +167,7 @@ passport.use(
   new JwtStrategy(opts, async function (jwt_payload, done) {
     try {
       // const user = await User.findById(jwt_payload.id); // :check { id: jwt_payload.sub }
+      console.log("JWT", jwt_payload.id);
       const user = await User.findById(jwt_payload.id);
       if (user) {
         return done(null, sanitizerUser(user)); //this calls serializer

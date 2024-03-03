@@ -8,9 +8,7 @@ import { checkAuthAsync } from "../features/auth/authSlice";
 const UserProfilePage = () => {
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    dispatch(checkAuthAsync());
-  }, [dispatch]);
+ 
   return (
     <div>
       <Navbar>

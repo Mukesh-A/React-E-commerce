@@ -13,7 +13,9 @@ const UserOrders = () => {
   const dispatch = useDispatch();
   const orders = useSelector(selectUserOrders);
   const status = useSelector(selectUserInfoStatus);
+
   useEffect(() => {
+    // window.location.reload();
     dispatch(fetchLoggedInUserOrdersAsync());
   }, [dispatch]);
   return (
