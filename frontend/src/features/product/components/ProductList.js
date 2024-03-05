@@ -461,8 +461,8 @@ function ProductGrid({ products, status }) {
               wrapperClass=""
               visible={true}
             />
-          ) : null}
-          {products &&
+          ) : (
+            products &&
             products?.map((product, key) => (
               <Link to={`/product-detail/${product.id}`} key={key}>
                 <div
@@ -517,7 +517,8 @@ function ProductGrid({ products, status }) {
                   )}
                 </div>
               </Link>
-            ))}
+            ))
+          )}
         </div>
       </div>
     </div>

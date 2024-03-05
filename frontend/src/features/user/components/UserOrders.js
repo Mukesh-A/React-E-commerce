@@ -20,7 +20,18 @@ const UserOrders = () => {
   }, [dispatch]);
   return (
     <div className="">
-      {orders && orders.length > 0 ? (
+      {status === "loading" ? (
+        <Grid
+          height="80"
+          width="80"
+          color="rgb(79, 70, 229) "
+          ariaLabel="grid-loading"
+          radius="12.5"
+          wrapperStyle={{}}
+          wrapperClass=""
+          visible={true}
+        />
+      ) : orders && orders.length > 0 ? (
         orders.map((order) => (
           <div>
             <div>
@@ -125,18 +136,6 @@ const UserOrders = () => {
           No Orders
         </h1>
       )}
-      {status === "loading" ? (
-        <Grid
-          height="80"
-          width="80"
-          color="rgb(79, 70, 229) "
-          ariaLabel="grid-loading"
-          radius="12.5"
-          wrapperStyle={{}}
-          wrapperClass=""
-          visible={true}
-        />
-      ) : null}
     </div>
   );
 };
